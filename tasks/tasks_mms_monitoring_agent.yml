@@ -25,7 +25,7 @@
     -mms
 
 - name: MMS | API Key
-  lineinfile: dest=/etc/mongodb-mms/monitoring-agent.config regexp='^mmsApiKey==' line='secret_key = "{{ mmsApiKey | mandatory }}"'
+  lineinfile: dest=/etc/mongodb-mms/monitoring-agent.config regexp='^mmsApiKey=' line='^mmsApiKey={{ mmsApiKey | mandatory }}'
   become: true
   tags:
     -mms
