@@ -1,0 +1,4 @@
+---
+# tasks file for role
+
+  - include: tasks_mms_monitoring_agent.yml

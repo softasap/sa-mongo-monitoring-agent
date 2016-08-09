@@ -1,0 +1,39 @@
+---
+- name: MMS | Check if my_package is installed
+  command: dpkg-query -W mongodb-mms-monitoring-agent
+  register: agent_check_deb
+  become: yes
+  failed_when: agent_check_deb.rc > 1
+  changed_when: agent_check_deb.rc == 1
+  tags:
+    -mms
+
+
+- name: MMS | download package
+  get_url:
+    url="https://cloud.mongodb.com/download/agent/monitoring/mongodb-mms-monitoring-agent_5.1.0.323-1_amd64.deb"
+    dest="/tmp/mongodb-mms-monitoring-agent_5.1.0.323-1_amd64.deb"
+  when: agent_check_deb.rc == 1
+  tags:
+    -mms
+
+- name: MMS | install package
+  apt: deb="/tmp/mongodb-mms-monitoring-agent_5.1.0.323-1_amd64.deb"
+  become: true
+  when: agent_check_deb.rc == 1
+  tags:
+    -mms
+
+- name: MMS | API Key
+  lineinfile: dest=/etc/mongodb-mms/monitoring-agent.config regexp='^mmsApiKey==' line='secret_key = "{{ mmsApiKey | mandatory }}"'
+  become: true
+  tags:
+    -mms
+
+
+- name: MMS | Start agent
+  shell: start mongodb-mms-monitoring-agent
+  become: true
+  tags:
+    -mms
+

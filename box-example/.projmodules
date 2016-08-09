@@ -1,0 +1,4 @@
+[submodule "roles/sa-mongo-monitoring-agent"]
+        path = roles/sa-mongo-monitoring-agent
+        url = https://github.com/softasap/sa-mongo-monitoring-agent.git
+
