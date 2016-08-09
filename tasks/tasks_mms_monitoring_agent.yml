@@ -32,7 +32,7 @@
 
 
 - name: MMS | Start agent
-  shell: start mongodb-mms-monitoring-agent
+  service: name=mongodb-mms-monitoring-agent state=restarted
   become: true
   tags:
     -mms
